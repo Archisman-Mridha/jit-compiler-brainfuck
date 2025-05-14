@@ -1,0 +1,20 @@
+{
+  BasedOnStyle: Google,
+
+  ColumnLimit: 100,
+  ReflowComments: false,
+
+  IndentWidth: 2,
+  NamespaceIndentation: All,
+  IndentAccessModifiers: true,
+
+  AlignConsecutiveDeclarations: Consecutive,
+  AlignConsecutiveAssignments: Consecutive,
+
+  SpaceInEmptyParentheses: true,
+  SpaceInEmptyBlock: true,
+
+  BreakInheritanceList: BeforeColon,
+
+  FixNamespaceComments: false,
+}

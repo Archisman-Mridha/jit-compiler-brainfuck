@@ -1,9 +1,8 @@
-#include <fstream>
 #include <iostream>
-#include <sstream>
-#include "utils.hpp"
-#include "lexer.hpp"
-#include "ir.hpp"
+
+import lexer;
+import ir;
+import utils;
 
 using namespace std;
 
@@ -27,19 +26,19 @@ using namespace std;
 */
 
 int main(int argc, char* argv[]) {
-  if(argc != 2) {
+  if (argc != 2) {
     cerr << "Wrong number of command-line arguments" << endl;
     cerr << "Usage : jit-compiler-brainfuck <input.bf>" << endl;
     exit(1);
   }
 
-  const char* inputFilePath = argv[1];
-  const string &inputFileContents = readFile(inputFilePath);
+  const char*   inputFilePath     = argv[1];
+  const string& inputFileContents = readFile(inputFilePath);
 
   auto lexer = new Lexer(inputFileContents);
 
   auto irGenerator = new IRsGenerator(lexer);
-  auto irs = irGenerator->generate();
+  auto irs         = irGenerator->generate( );
 
   return 0;
 }
