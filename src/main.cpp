@@ -32,13 +32,13 @@ int main(int argc, char* argv[]) {
     exit(1);
   }
 
-  const char*   inputFilePath     = argv[1];
-  const string& inputFileContents = readFile(inputFilePath);
+  const auto inputFilePath     = argv[1];
+  const auto inputFileContents = readFile(inputFilePath);
 
-  auto lexer = new Lexer(inputFileContents);
+  const auto lexer = new Lexer(inputFileContents);
 
-  auto irGenerator = new IRsGenerator(lexer);
-  auto irs         = irGenerator->generate( );
+  const auto irGenerator = new IRsGenerator(lexer);
+  const auto irs         = irGenerator->generate( );
 
   return 0;
 }

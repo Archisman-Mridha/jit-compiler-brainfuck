@@ -10,6 +10,11 @@
 
   AlignConsecutiveDeclarations: Consecutive,
   AlignConsecutiveAssignments: Consecutive,
+  AlignAfterOpenBracket: Align,
+  AlignTrailingComments: true,
+
+  AllowShortIfStatementsOnASingleLine: false,
+  AllowShortLoopsOnASingleLine: false,
 
   SpaceInEmptyParentheses: true,
   SpaceInEmptyBlock: true,

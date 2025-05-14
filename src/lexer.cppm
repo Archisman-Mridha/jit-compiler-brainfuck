@@ -1,5 +1,6 @@
 module;
 
+#include <optional>
 #include <string>
 
 export module lexer;
@@ -43,7 +44,8 @@ export struct Lexer {
     optional<Token> peek(int offset) {
       int targetPosition = this->currentPosition + offset;
 
-      if (this->currentPosition >= this->source.size( )) return nullopt;
+      if (this->currentPosition >= this->source.size( ))
+        return nullopt;
 
       char lexeme = this->source[targetPosition];
       while (true) {
@@ -65,7 +67,8 @@ export struct Lexer {
     optional<Token> next_if_token(Token desiredNextToken) {
       auto nextToken = this->peek(0);
 
-      if (nextToken != desiredNextToken) return nullopt;
+      if (nextToken != desiredNextToken)
+        return nullopt;
 
       this->currentPosition++;
       return nextToken;

@@ -50,7 +50,8 @@ export class IRsGenerator {
           case Token::INPUT:
           case Token::OUTPUT: {
             size_t operand = 1;
-            while (this->lexer->next_if_token(currentToken).has_value( )) operand += 1;
+            while (this->lexer->next_if_token(currentToken).has_value( ))
+              operand += 1;
 
             auto ir = IR{.token = currentToken, .operand = operand};
             irs.push_back(ir);
