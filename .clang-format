@@ -2,7 +2,6 @@
   BasedOnStyle: Google,
 
   ColumnLimit: 100,
-  ReflowComments: false,
 
   IndentWidth: 2,
   NamespaceIndentation: All,
@@ -13,7 +12,7 @@
   AlignAfterOpenBracket: Align,
   AlignTrailingComments: true,
 
-  AllowShortIfStatementsOnASingleLine: false,
+  AllowShortIfStatementsOnASingleLine: Never,
   AllowShortLoopsOnASingleLine: false,
 
   SpaceInEmptyParentheses: true,

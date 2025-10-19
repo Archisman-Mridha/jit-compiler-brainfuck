@@ -36,10 +36,10 @@ export enum class Token : char {
 };
 
 export struct Lexer {
-    const string &source;
+    const string& source;
     int           currentPosition = 0;
 
-    Lexer(const string &source) : source(source) { }
+    Lexer(const string& source) : source(source) { }
 
     optional<Token> peek(int offset) {
       int targetPosition = this->currentPosition + offset;
@@ -52,7 +52,7 @@ export struct Lexer {
         try {
           auto currentToken = static_cast<Token>(lexeme);
           return currentToken;
-        } catch (const exception &e) {
+        } catch (const exception& e) {
           // Ignore comments
         }
       }
