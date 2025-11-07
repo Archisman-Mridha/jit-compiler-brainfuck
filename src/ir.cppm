@@ -12,6 +12,7 @@ import lexer;
 using namespace std;
 
 export struct IR {
+  public:
     Token token;
 
     /*
@@ -27,22 +28,19 @@ export struct IR {
     size_t operand;
 };
 
-export class IRsGenerator {
-  private:
-    Lexer* lexer;
-
+export class IRGenerator {
   public:
-    IRsGenerator(Lexer* lexer) : lexer(lexer) { }
+    IRGenerator(Lexer* lexer) : lexer(lexer) { }
 
     vector<IR> generate( ) {
       vector<IR> irs;
 
-      stack<int> backPatchingHelper;
+      stack<int> back_patching_helper;
 
-      auto currentTokenOptional = this->lexer->next( );
-      while (currentTokenOptional.has_value( )) {
-        auto currentToken = currentTokenOptional.value( );
-        switch (currentToken) {
+      auto current_token_optional = this->lexer->next( );
+      while (current_token_optional.has_value( )) {
+        auto current_token = current_token_optional.value( );
+        switch (current_token) {
           case Token::INCREMENT:
           case Token::DECREMENT:
           case Token::MOVE_LEFT:
@@ -50,46 +48,49 @@ export class IRsGenerator {
           case Token::INPUT:
           case Token::OUTPUT: {
             size_t operand = 1;
-            while (this->lexer->next_if_token(currentToken).has_value( ))
+            while (this->lexer->next_if_token(current_token).has_value( ))
               operand += 1;
 
-            auto ir = IR{.token = currentToken, .operand = operand};
+            auto ir = IR{.token = current_token, .operand = operand};
             irs.push_back(ir);
 
             break;
           }
 
           case Token::JUMP_IF_ZERO: {
-            auto ir         = IR{.token = currentToken, .operand = 0};
-            int  irPosition = irs.size( );
+            auto ir          = IR{.token = current_token, .operand = 0};
+            int  ir_position = irs.size( );
             irs.push_back(ir);
 
-            backPatchingHelper.push(irPosition);
+            back_patching_helper.push(ir_position);
 
             break;
           }
 
           case Token::JUMP_IF_NON_ZERO: {
-            if (backPatchingHelper.size( ) == 0) {
+            if (back_patching_helper.size( ) == 0) {
               // TODO : Report line and column numbers.
               cerr << "No previous JUMP_IF_ZERO token for the current JUMP_IF_NOT_ZERO token"
                    << endl;
               exit(1);
             }
 
-            int jumpedFromIRPosition = backPatchingHelper.top( );
-            backPatchingHelper.pop( );
-            auto jumpedFromIR = irs[jumpedFromIRPosition];
+            int jumped_from_ir_position = back_patching_helper.top( );
+            back_patching_helper.pop( );
+            auto jumped_from_ir = irs[jumped_from_ir_position];
 
             size_t jumpToIRPosition = irs.size( );
-            jumpedFromIR.operand    = jumpToIRPosition;
+            jumped_from_ir.operand  = jumpToIRPosition;
 
             break;
           }
         }
 
-        currentTokenOptional = this->lexer->next( );
+        current_token_optional = this->lexer->next( );
       }
       return irs;
     }
+
+  private:
+    Lexer* lexer;
 };

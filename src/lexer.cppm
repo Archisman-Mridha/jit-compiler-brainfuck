@@ -35,42 +35,44 @@ export enum class Token : char {
   JUMP_IF_NON_ZERO = ']'
 };
 
-export struct Lexer {
-    const string& source;
-    int           currentPosition = 0;
-
+export class Lexer {
+  public:
     Lexer(const string& source) : source(source) { }
 
-    optional<Token> peek(int offset) {
-      int targetPosition = this->currentPosition + offset;
+    optional<Token> next( ) {
+      auto next_token = this->peek(0);
+      this->current_position++;
+      return next_token;
+    }
 
-      if (this->currentPosition >= this->source.size( ))
+    optional<Token> next_if_token(Token desired_next_token) {
+      auto next_token = this->peek(0);
+
+      if (next_token != desired_next_token)
         return nullopt;
 
-      char lexeme = this->source[targetPosition];
+      this->current_position++;
+      return next_token;
+    }
+
+  private:
+    const string& source;
+    int           current_position = 0;
+
+    optional<Token> peek(int offset) {
+      int target_position = this->current_position + offset;
+
+      if (this->current_position >= this->source.size( ))
+        return nullopt;
+
+      char lexeme = this->source[target_position];
       while (true) {
         try {
-          auto currentToken = static_cast<Token>(lexeme);
-          return currentToken;
+          auto current_token = static_cast<Token>(lexeme);
+          return current_token;
         } catch (const exception& e) {
           // Ignore comments
         }
       }
-    }
-
-    optional<Token> next( ) {
-      auto nextToken = this->peek(0);
-      this->currentPosition++;
-      return nextToken;
-    }
-
-    optional<Token> next_if_token(Token desiredNextToken) {
-      auto nextToken = this->peek(0);
-
-      if (nextToken != desiredNextToken)
-        return nullopt;
-
-      this->currentPosition++;
-      return nextToken;
     }
 };

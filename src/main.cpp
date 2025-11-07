@@ -27,18 +27,18 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
   if (argc != 2) {
-    cerr << "Wrong number of command-line arguments" << endl;
+    cerr << "Wrong number of CLI arguments provided" << endl;
     cerr << "Usage : jit-compiler-brainfuck <input.bf>" << endl;
     exit(1);
   }
 
-  const auto inputFilePath     = argv[1];
-  const auto inputFileContents = readFile(inputFilePath);
+  const auto input_file_path     = argv[1];
+  const auto input_file_contents = read_file(input_file_path);
 
-  const auto lexer = new Lexer(inputFileContents);
+  const auto lexer = new Lexer(input_file_contents);
 
-  const auto irGenerator = new IRsGenerator(lexer);
-  const auto irs         = irGenerator->generate( );
+  const auto ir_generator = new IRGenerator(lexer);
+  const auto irs          = ir_generator->generate( );
 
   return 0;
 }
