@@ -16,7 +16,7 @@
 //!       monitor respectively, and using the ASCII character encoding).
 
 use {
-  crate::lexer::Lexer,
+  crate::{interpreter::Interpreter, lexer::Lexer},
   std::{
     fs::File,
     io::{BufReader, Read}
@@ -24,6 +24,7 @@ use {
 };
 
 mod error;
+mod interpreter;
 mod ir;
 mod lexer;
 
@@ -37,6 +38,9 @@ fn main() -> std::io::Result<()> {
   );
 
   let irs = ir::generate(lexer.peekable()).unwrap();
+
+  let mut interpreter = Interpreter::new(irs);
+  interpreter.interpret().unwrap();
 
   Ok(())
 }

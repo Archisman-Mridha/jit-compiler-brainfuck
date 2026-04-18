@@ -37,14 +37,14 @@ pub enum TokenKind {
 impl From<char> for TokenKind {
   fn from(character: char) -> Self {
     match character {
-      '>' => Self::MoveLeft,
-      '<' => Self::MoveRight,
+      '>' => Self::MoveRight,
+      '<' => Self::MoveLeft,
 
       '+' => Self::Increment,
       '-' => Self::Decrement,
 
-      '.' => Self::Input,
-      ',' => Self::Output,
+      '.' => Self::Output,
+      ',' => Self::Input,
 
       '[' => Self::JumpWhenZero,
       ']' => Self::JumpWhenNonZero,

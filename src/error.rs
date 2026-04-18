@@ -1,4 +1,7 @@
 #[derive(Debug)]
 pub enum Error {
-  MissingCorrespondingJumpWhenZeroToken
+  MissingCorrespondingJumpWhenZeroToken,
+
+  MemoryUnderflow,
+  MemoryOverflow
 }

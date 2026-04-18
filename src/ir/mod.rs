@@ -60,8 +60,7 @@ pub fn generate(mut tokens: Peekable<impl Iterator<Item = Token>>) -> Result<Vec
         // Check if there are similar kind of tokens following this token.
         // We'll compress all the consecutive similar kinded tokens into a single efficient IR.
         while tokens
-          .peek()
-          .take_if(|token| token.kind == ir.operator)
+          .next_if(|token| token.kind == ir.operator)
           .is_some()
         {
           ir.operand += 1;
