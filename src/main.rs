@@ -16,20 +16,25 @@
 //!       monitor respectively, and using the ASCII character encoding).
 
 use {
-  crate::{interpreter::Interpreter, lexer::Lexer},
+  crate::{
+    compiler::{Compiler, assembler::arm64::ARM64Assembler},
+    error::Error,
+    lexer::Lexer
+  },
   std::{
     fs::File,
     io::{BufReader, Read}
   }
 };
 
+mod compiler;
 mod error;
 mod interpreter;
 mod ir;
 mod lexer;
 
-fn main() -> std::io::Result<()> {
-  let reader = BufReader::new(File::open("examples/hello-world.bf")?);
+fn main() -> Result<(), Error> {
+  let reader = BufReader::new(File::open("examples/hello-world.bf").map_err(Error::IO)?);
 
   let lexer = Lexer::new(
     reader
@@ -37,10 +42,15 @@ fn main() -> std::io::Result<()> {
       .filter_map(|byte| byte.ok().map(|byte| byte as char))
   );
 
-  let irs = ir::generate(lexer.peekable()).unwrap();
+  let irs = ir::generate(lexer.peekable())?;
 
-  let mut interpreter = Interpreter::new(irs);
-  interpreter.interpret().unwrap();
+  // let mut interpreter = Interpreter::new(irs);
+  // interpreter.interpret()?;
+
+  let assembler = ARM64Assembler {};
+
+  let mut compiler = Compiler::new(irs, assembler);
+  compiler.compile();
 
   Ok(())
 }
